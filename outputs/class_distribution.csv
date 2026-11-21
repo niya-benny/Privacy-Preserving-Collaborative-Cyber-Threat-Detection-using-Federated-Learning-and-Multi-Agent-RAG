@@ -1,0 +1,9 @@
+label,count
+BENIGN,300000
+DoS,193741
+DDoS,128014
+PortScan,1956
+BruteForce,9150
+Botnet,1437
+WebAttack,2143
+Infiltration,36

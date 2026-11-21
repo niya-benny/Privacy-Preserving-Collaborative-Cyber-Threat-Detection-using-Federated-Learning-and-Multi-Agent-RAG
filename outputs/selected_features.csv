@@ -1,0 +1,21 @@
+feature,gain_importance
+Idle Mean,0.22447148
+Bwd Packet Length Std,0.16046104
+Fwd Packet Length Max,0.10644987
+Total Length of Fwd Packets,0.05842268
+Packet Length Std,0.053184062
+Idle Std,0.041013263
+Down/Up Ratio,0.036695912
+Bwd Packet Length Min,0.03507584
+Average Packet Size,0.025636792
+Active Mean,0.021675602
+Fwd PSH Flags,0.02118959
+Active Std,0.019280119
+Total Fwd Packets,0.018190693
+Bwd Header Length,0.017679973
+Fwd Packet Length Mean,0.016754111
+Bwd Packets/s,0.013335592
+Init_Win_bytes_backward,0.012718372
+FIN Flag Count,0.012307522
+Fwd Header Length,0.011171384
+Idle Max,0.00970031

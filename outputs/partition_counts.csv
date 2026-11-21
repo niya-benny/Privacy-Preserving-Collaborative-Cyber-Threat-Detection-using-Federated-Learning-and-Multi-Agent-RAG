@@ -1,0 +1,6 @@
+,BENIGN,DoS,DDoS,PortScan,BruteForce,Botnet,WebAttack,Infiltration
+Institution_A,47988,18385,2587,778,1479,180,44,22
+Institution_B,47737,13477,108,237,1353,759,59,6
+Institution_C,48036,95990,12026,497,9,0,236,1
+Institution_D,47949,11424,56422,52,3855,14,446,0
+Institution_E,48290,15717,31268,1,624,197,929,0

@@ -1,1 +1,23 @@
 /data
+.venv/
+
+# Python environment and caches
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Dataset (about 800 MB, and over GitHub's 100 MB per-file limit)
+data/raw/*
+!data/raw/.gitkeep
+
+# Generated intermediate data and trained models (rebuilt by running s1 to s7)
+artifacts/
+
+# Editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local settings or secrets, if you ever add any
+.env

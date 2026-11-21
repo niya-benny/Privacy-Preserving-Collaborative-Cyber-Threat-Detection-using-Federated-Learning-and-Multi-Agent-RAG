@@ -52,7 +52,7 @@ def main():
         X, y = X[ok], y[ok]
         meta = pd.DataFrame({"label": y.values,
                              "src": df.loc[ok, src].astype(str).values if src else None,
-                             "ts": pd.to_datetime(df.loc[ok, tsc], errors="coerce").values if tsc else pd.NaT})
+                             "ts":pd.to_datetime(df.loc[ok, tsc], errors="coerce", dayfirst=True, format="mixed").values if tsc else pd.NaT})
         dup = pd.util.hash_pandas_object(X.assign(_y=y.values), index=False).duplicated().values
         X, meta = X[~dup], meta[~dup]
         b = np.where(meta.label.values == "BENIGN")[0]
@@ -83,6 +83,8 @@ def main():
         meta["src"] = [f"10.0.{rng.integers(0, 4)}.{rng.integers(1, 250)}" if l == "BENIGN" else f"172.16.{CANON.index(l)}.{rng.integers(1, 4)}"
                        for l in meta.label.values]
         meta["ts"] = pd.NaT
+    h = meta.ts.dt.hour
+    meta["ts"] = meta.ts.where(h >= 8, meta.ts + pd.Timedelta(hours=12))
     np.save(ART / "clean_X.npy", X.astype("float32"))
     meta.to_pickle(ART / "clean_meta.pkl")
     with open(ART / "clean_info.json", "w") as f:
