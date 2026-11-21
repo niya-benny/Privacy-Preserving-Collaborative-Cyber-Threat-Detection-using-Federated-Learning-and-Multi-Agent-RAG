@@ -1,0 +1,8 @@
+numpy>=1.26
+pandas>=2.0
+matplotlib>=3.7
+tabulate>=0.9
+sentence-transformers>=2.7
+faiss-cpu>=1.8
+streamlit>=1.35
+xgboost>=2.0      # optional: only used for the library sanity check + feature selection
