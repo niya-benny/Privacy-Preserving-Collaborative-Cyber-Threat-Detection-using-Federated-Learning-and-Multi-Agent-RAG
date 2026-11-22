@@ -32,7 +32,7 @@ def main():
     try:                                   # optional sanity check against the real XGBoost library
         import xgboost as xgb
         m = xgb.XGBClassifier(n_estimators=GBDT["rounds"], max_depth=GBDT["max_depth"], learning_rate=GBDT["lr"],
-                              tree_method="hist", n_jobs=-1, max_bin=meta["n_bins"])
+                              tree_method="hist", n_jobs=-1,max_bin=meta["n_bins"], min_child_weight=0.01)
         m.fit(Xall, yall)
         res["xgboost_library_centralised"] = metrics(te["y"], m.predict(te["Xb"]), classes)
         print("xgboost library (centralised): acc=%.4f macroF1=%.4f" % (res["xgboost_library_centralised"]["accuracy"], res["xgboost_library_centralised"]["macro_f1"]))

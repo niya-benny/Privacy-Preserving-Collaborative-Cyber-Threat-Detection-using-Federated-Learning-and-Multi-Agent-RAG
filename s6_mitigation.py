@@ -3,7 +3,7 @@ Writes outputs/mitigation_*.csv and artifacts/incidents.json (one incident per b
 Usage: python s6_mitigation.py
 """
 import json, pickle, itertools
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, deque
 import numpy as np, pandas as pd
 from config import *
 from common import load_meta
@@ -11,7 +11,7 @@ from common import load_meta
 
 def replay(order, src, inst, y, pred, conf, t, params, whitelist, benign=0):
     thr, rep, dur = params["conf_thr"], params["repeat"], params["duration"]
-    hits, blocked_until, flagged, nblocks, confsum = Counter(), {}, defaultdict(Counter), Counter(), defaultdict(float)
+    hits, blocked_until, flagged, nblocks, confsum = defaultdict(deque), {}, defaultdict(Counter), Counter(), defaultdict(float)
     first_block, incidents = {}, []
     dropped_atk = dropped_ben = passed_atk = 0
     for i in order:
@@ -22,15 +22,16 @@ def replay(order, src, inst, y, pred, conf, t, params, whitelist, benign=0):
             continue
         if y[i] != benign: passed_atk += 1
         if pred[i] != benign and conf[i] >= thr:
-            hits[key] += 1; flagged[key][pred[i]] += 1; confsum[key] += conf[i]
-            if hits[key] >= rep and src[i] not in whitelist:
+            hits[key].append(t[i]); flagged[key][pred[i]] += 1; confsum[key] += conf[i]
+            while t[i] - hits[key][0] > params.get("window", float("inf")): hits[key].popleft()
+            if len(hits[key]) >= rep and src[i] not in whitelist:
                 nblocks[key] += 1                                   # repeat offenders get exponentially longer blocks
                 blocked_until[key] = t[i] + dur * (2 ** min(nblocks[key] - 1, 3))
                 if key not in first_block:
                     first_block[key] = t[i]
                     incidents.append({"institution_id": int(key[0]), "src_ip": key[1], "predicted_class": int(flagged[key].most_common(1)[0][0]),
                                       "n_flagged": int(sum(flagged[key].values())), "confidence": round(float(confsum[key] / sum(flagged[key].values())), 3), "triggered_by_true_class": int(y[i]), "time": float(t[i])})
-                hits[key] = 0
+                hits[key].clear()
     atk_total, ben_total = int((y != benign).sum()), int((y == benign).sum())
     atk_srcs = defaultdict(int)
     for i in np.where(y != benign)[0]: atk_srcs[(inst[i], src[i])] += 1

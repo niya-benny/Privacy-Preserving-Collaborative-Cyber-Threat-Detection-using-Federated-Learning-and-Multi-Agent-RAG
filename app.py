@@ -51,7 +51,7 @@ with tab2:
         ts = te["ts"]
         if np.isnan(ts).all(): order, t, d = np.arange(len(pred)), np.arange(len(pred), dtype=float), dur / 60
         else: order, t, d = np.argsort(np.nan_to_num(ts, nan=np.inf), kind="stable"), ts - np.nanmin(ts), dur
-        m, inc = replay(order, te["src"], te["inst"], te["y"], pred, conf, t, dict(conf_thr=thr, repeat=rep, duration=d), WHITELIST)
+        m, inc = replay(order, te["src"], te["inst"], te["y"], pred, conf, t, dict(conf_thr=thr, repeat=rep, duration=d, window=MITIGATION["window"]), WHITELIST)
         a, b, c3 = st.columns(3)
         a.metric("Attack flows dropped", f"{m['attack_dropped_pct']:.1f}%"); b.metric("Benign flows wrongly dropped", f"{m['benign_dropped_pct']:.2f}%")
         c3.metric("Wrongly blocked sources", m["wrongly_blocked_sources"])

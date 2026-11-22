@@ -28,8 +28,8 @@ GBDT = dict(rounds=30, max_depth=5, lr=0.3, lam=1.0, gamma=0.0, min_child_weight
 SECAGG_SCALE = 2 ** 24      # fixed-point scale used before masking
 
 # ---- simulated mitigation ----
-MITIGATION = dict(conf_thr=0.90, repeat=3, duration=600)     # duration in seconds
-WHITELIST = {"192.168.10.1", "192.168.10.3"}   # gateway / DNS-DC in CICIDS2017 -- VERIFY against the dataset documentation
+MITIGATION = dict(conf_thr=0.90, repeat=3, duration=600, window=60)     # duration in seconds
+WHITELIST = {"192.168.10.1", "192.168.10.3", "192.168.10.50", "192.168.10.51"}  # gateway / DNS-DC in CICIDS2017 -- VERIFY against the dataset documentation
 
 # ---- RAG / LLM ----
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"

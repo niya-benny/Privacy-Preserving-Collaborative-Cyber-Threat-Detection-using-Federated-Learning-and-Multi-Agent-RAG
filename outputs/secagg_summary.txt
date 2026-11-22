@@ -1,0 +1,5 @@
+Secure Aggregation: 1180/1180 aggregates identical to plain sum
+mean |corr(masked, true)| = 0.013602396127611615
+prediction agreement secure vs plain = 1.0
+upload volume = 261 MB over 30 rounds
+Poisoning (one institution, 30% labels flipped): macroF1 0.8988 -> 0.8595; accuracy 0.9913 -> 0.9912
