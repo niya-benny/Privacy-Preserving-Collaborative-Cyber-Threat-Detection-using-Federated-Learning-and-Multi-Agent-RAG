@@ -74,7 +74,7 @@ class Pipeline:
         user = (f"Alert: institution={alert['institution']}; attack_class={alert['predicted_class']}; confidence={alert['confidence']:.2f}; "
                 f"source_ip={alert['src_ip']}.\nThreat intelligence: {json.dumps(intel)}\nInstitution policy: {json.dumps(policy)}\n"
                 'Write the incident report. JSON keys: "summary" (2-3 sentences), "impact", "mitre_techniques" (list), '
-                '"response_steps" (list, taken from the policy), "escalation".')
+                '"response_steps" (list, taken from the policy), "escalation" (contact name and extension, copied from the policy).')
         out = self._call(user, 320, stats)
         return out if isinstance(out, dict) else None
 
@@ -115,6 +115,14 @@ class Pipeline:
         else:
             report, status = self.fallback(alert, g, p), "fallback"
             checks = guards.check_report(report, g, p)
+        if not guards.summary_ok(report.get("summary", ""), alert):
+            report["summary"] = self.fallback(alert, g, p)["summary"]
+            status = status if status == "fallback" else status + "+summary_fixed"
+        esc = guards.extract_escalation(p)
+        if esc:
+            report["escalation"] = esc
+        elif not isinstance(report.get("escalation"), str):
+            report["escalation"] = "see institutional policy"
         report.update(attack_type=a, confidence=round(alert["confidence"], 3), institution=inst, source_ip=alert["src_ip"])
         return {"status": status, "report": report, "checks": checks, "query": query, "sources": [c["id"] for c in g + p],
                 "chunks": {"global": g, "institution": p}, "stats": stats, "dropped_chunks": d1 + d2}

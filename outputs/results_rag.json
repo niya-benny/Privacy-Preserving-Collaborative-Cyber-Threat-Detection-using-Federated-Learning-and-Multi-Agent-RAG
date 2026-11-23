@@ -1,0 +1,31 @@
+{
+  "retrieval": {
+    "Hit@1": 0.9047619047619048,
+    "Hit@3": 0.9523809523809523,
+    "Hit@5": 1.0,
+    "Recall@1": 0.9047619047619048,
+    "Recall@3": 0.6206349206349207,
+    "Recall@5": 0.7174603174603175,
+    "MRR": 0.9380952380952381,
+    "n_queries": 105
+  },
+  "security": {
+    "cross_institution_leaks": 0,
+    "malformed_alerts_rejected": "6/6",
+    "poisoned_chunks_dropped": "2/2",
+    "special_tokens_stripped": true
+  },
+  "generation": {
+    "n_reports": 12,
+    "status_counts": {
+      "ok": 12
+    },
+    "first_attempt_pass_rate": 1.0,
+    "fallback_rate": 0.0,
+    "mean_faithfulness": 0.995,
+    "mitre_grounded_rate": 1.0,
+    "mean_latency_s": 45.970000000000006,
+    "mean_prompt_tokens": 940.4166666666666,
+    "mean_output_tokens": 264.3333333333333
+  }
+}

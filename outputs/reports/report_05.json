@@ -1,0 +1,55 @@
+{
+ "alert": {
+  "src_ip": "172.16.0.1",
+  "predicted_class": "BruteForce",
+  "n_flagged": 3,
+  "confidence": 0.992,
+  "triggered_by_true_class": "BruteForce",
+  "time": 87.7819999998901,
+  "institution": "Institution_A"
+ },
+ "status": "ok",
+ "report": {
+  "summary": "A brute-force attack was detected targeting Institution_A's services, resulting in a high confidence alert.",
+  "impact": "A brute-force attack repeatedly guesses passwords against services such as FTP and SSH, giving the attacker valid accounts and a foothold inside the network.",
+  "mitre_techniques": [
+   "T1110",
+   "T1110.001",
+   "T1110.003"
+  ],
+  "response_steps": [
+   "Lock the targeted accounts and force a password reset",
+   "Block the source address temporarily",
+   "Review authentication logs for successful logins from that source",
+   "Enable multi-factor authentication on the exposed service"
+  ],
+  "escalation": "NOC duty officer (ext 4100)",
+  "attack_type": "BruteForce",
+  "confidence": 0.992,
+  "institution": "Institution_A",
+  "source_ip": "172.16.0.1"
+ },
+ "checks": {
+  "structure_ok": true,
+  "mitre_grounded": true,
+  "ungrounded_ids": [],
+  "step_support": 1.0,
+  "faithfulness": 0.988,
+  "passed": true
+ },
+ "query": "BruteForce attack brute-force password guessing (FTP/SSH) impact detection mitigation",
+ "sources": [
+  "bruteforce#1",
+  "bruteforce#0",
+  "nist_incident_response#0",
+  "playbook_bruteforce#0",
+  "acceptable_use#0",
+  "network_layout#0"
+ ],
+ "stats": {
+  "latency_s": 45.94,
+  "prompt_tokens": 966,
+  "output_tokens": 259
+ },
+ "dropped_chunks": 0
+}

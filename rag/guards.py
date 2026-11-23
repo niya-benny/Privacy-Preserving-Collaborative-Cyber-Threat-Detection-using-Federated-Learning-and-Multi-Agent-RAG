@@ -80,3 +80,20 @@ def check_report(report, global_ctx, policy_ctx, step_thr=0.6):
                faithfulness=round((sum(step_scores) + imp) / (len(step_scores) + 1), 3))
     res["passed"] = res["mitre_grounded"] and res["step_support"] >= 0.8 and bool(steps) and imp >= 0.4
     return res
+
+def summary_ok(summary, alert):
+    """Numbers and IPs written in the summary must match the alert (the model sometimes rounds or invents them)."""
+    c = float(alert["confidence"])
+    allowed = {f"{c:.3f}".rstrip("0"), f"{c:.2f}", f"{int(c * 100) / 100:.2f}", f"{c:.1f}", alert["src_ip"]}
+    found = re.findall(r"\d+\.\d+(?:\.\d+\.\d+)?", str(summary))
+    return all(x in allowed for x in found)
+
+ESC = re.compile(r"[Ee]scalate to the ([^()\n.]{3,60}?)\s*\((ext \d+)\)")
+
+def extract_escalation(chunks):
+    """Escalation contact copied straight from the institution's own playbook text (no LLM involved)."""
+    for c in chunks:
+        m = ESC.search(c["text"])
+        if m:
+            return f"{m.group(1)} ({m.group(2)})"
+    return None

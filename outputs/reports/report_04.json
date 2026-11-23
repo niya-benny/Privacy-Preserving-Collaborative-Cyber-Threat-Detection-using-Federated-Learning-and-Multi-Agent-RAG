@@ -1,0 +1,55 @@
+{
+ "alert": {
+  "src_ip": "192.168.10.15",
+  "predicted_class": "Botnet",
+  "n_flagged": 3,
+  "confidence": 0.977,
+  "triggered_by_true_class": "Botnet",
+  "time": 350.7019999998156,
+  "institution": "Institution_E"
+ },
+ "status": "ok",
+ "report": {
+  "summary": "A botnet attack was detected on Institution_E's network, originating from IP address 192.168.10.15. The attack has a high confidence level of 0.98.",
+  "impact": "A compromised host that contacts a command-and-control server and may take part in attacks, spam or data theft.",
+  "mitre_techniques": [
+   "T1071",
+   "T1071.001",
+   "T1568",
+   "T1041"
+  ],
+  "response_steps": [
+   "Isolate the infected host from the network",
+   "Block the command-and-control address at the firewall and DNS",
+   "Collect logs and evidence",
+   "Reimage the host and reset its credentials"
+  ],
+  "escalation": "Library systems admin (ext 7500)",
+  "attack_type": "Botnet",
+  "confidence": 0.977,
+  "institution": "Institution_E",
+  "source_ip": "192.168.10.15"
+ },
+ "checks": {
+  "structure_ok": true,
+  "mitre_grounded": true,
+  "ungrounded_ids": [],
+  "step_support": 1.0,
+  "faithfulness": 1.0,
+  "passed": true
+ },
+ "query": "Botnet attack botnet command-and-control traffic impact detection mitigation",
+ "sources": [
+  "botnet#0",
+  "nist_incident_response#0",
+  "playbook_botnet#0",
+  "acceptable_use#0",
+  "network_layout#0"
+ ],
+ "stats": {
+  "latency_s": 48.64,
+  "prompt_tokens": 926,
+  "output_tokens": 268
+ },
+ "dropped_chunks": 0
+}
