@@ -9,6 +9,7 @@ st.set_page_config(page_title="Federated Campus IDS", layout="wide")
 st.title("Privacy-preserving collaborative threat detection for educational institutions")
 st.caption("Federated XGBoost-style IDS + Secure Aggregation + Multi-Agent RAG (local Llama). Simulation on CICIDS2017.")
 
+
 @st.cache_resource
 def load_model():
     return pickle.load(open(ART / "global_model.pkl", "rb"))
@@ -26,7 +27,7 @@ def load_test():
     return {k: d[k] for k in d.files}
 
 
-tab1, tab2, tab3 = st.tabs(["Results", "Mitigation replay", "Incident report"])
+tab1, tab2, tab3, tab4 = st.tabs(["Results", "Mitigation replay", "Incident report", "Test the model"])
 
 with tab1:
     try:
@@ -50,7 +51,7 @@ with tab2:
         ts = te["ts"]
         if np.isnan(ts).all(): order, t, d = np.arange(len(pred)), np.arange(len(pred), dtype=float), dur / 60
         else: order, t, d = np.argsort(np.nan_to_num(ts, nan=np.inf), kind="stable"), ts - np.nanmin(ts), dur
-        m, inc = replay(order, te["src"], te["inst"], te["y"], pred, conf, t, dict(conf_thr=thr, repeat=rep, duration=d, window=MITIGATION["window"]), WHITELIST)
+        m, inc = replay(order, te["src"], te["inst"], te["y"], pred, conf, t, dict(conf_thr=thr, repeat=rep, duration=d, window=MITIGATION.get("window", float("inf"))), WHITELIST)
         a, b, c3 = st.columns(3)
         a.metric("Attack flows dropped", f"{m['attack_dropped_pct']:.1f}%"); b.metric("Benign flows wrongly dropped", f"{m['benign_dropped_pct']:.2f}%")
         c3.metric("Wrongly blocked sources", m["wrongly_blocked_sources"])
@@ -92,3 +93,64 @@ with tab3:
             st.markdown(f"**Escalation:** {rp.get('escalation', '')}")
             with st.expander("Checks, sources and cost"):
                 st.json({"checks": r["checks"], "sources": r["sources"], "stats": r["stats"], "dropped_chunks": r["dropped_chunks"]})
+
+with tab4:
+    from predict_utils import representative_values, predict_frame
+    model, te = load_model(), load_test()
+    classes, feats, edges = model.classes, model.features, model.edges
+    mode = st.radio("What do you want to test?", ["Random test flow", "What-if: edit features", "Upload a CSV of flows"], horizontal=True)
+
+    if mode != "Upload a CSV of flows":
+        c1, c2 = st.columns([3, 1])
+        want = c1.selectbox("True class of the flow to draw", ["Any"] + list(classes))
+        if c2.button("Draw a random flow") or "flow_idx" not in st.session_state:
+            pool = np.arange(len(te["y"])) if want == "Any" else np.where(te["y"] == classes.index(want))[0]
+            st.session_state["flow_idx"] = int(np.random.default_rng().choice(pool))
+        i = st.session_state["flow_idx"]
+        true = classes[int(te["y"][i])]
+        vals = representative_values(te["Xb"][i], edges)
+
+        if mode == "Random test flow":
+            proba = model.predict_proba(te["Xb"][i:i + 1])[0]
+            pred = classes[int(proba.argmax())]
+            a, b, c = st.columns(3)
+            a.metric("True class", true)
+            b.metric("Predicted class", pred)
+            c.metric("Confidence", f"{proba.max():.3f}")
+            (st.success if pred == true else st.error)(f"{'Correct' if pred == true else 'Wrong'}: true = {true}, predicted = {pred}")
+            st.caption(f"Source IP {te['src'][i]} | simulated institution {INSTITUTIONS[int(te['inst'][i])]} | this flow was never used for training")
+            st.bar_chart(pd.DataFrame({"probability": proba}, index=classes))
+            st.dataframe(pd.DataFrame({"feature": feats, "value (approx.)": vals}), use_container_width=True)
+        else:
+            st.caption("Starts from the drawn flow. Change any value and the prediction updates. Values are approximate (bin boundaries).")
+            cols, new = st.columns(4), []
+            for j, f in enumerate(feats):
+                new.append(cols[j % 4].number_input(f, value=float(vals[j]), key=f"f_{i}_{j}", format="%.4f"))
+            p2 = model.predict_proba_raw(np.array([new]))[0]
+            st.success(f"Prediction: {classes[int(p2.argmax())]} (confidence {p2.max():.3f})  |  true class of the original flow: {true}")
+            st.bar_chart(pd.DataFrame({"probability": p2}, index=classes))
+
+    else:
+        st.write("Upload a CSV with these columns (extra columns are ignored, spaces in names are fine):")
+        st.code(", ".join(feats))
+        st.caption("Tip: a slice of an original CICIDS2017 CSV works directly. Rows with NaN/inf in these columns are skipped; at most 50,000 rows are read.")
+        up = st.file_uploader("CSV file", type="csv")
+        if up is not None:
+            df = pd.read_csv(up, encoding="latin1", low_memory=False, skipinitialspace=True, nrows=50000)
+            try:
+                out, proba, skipped = predict_frame(model, df)
+            except ValueError as e:
+                st.error(str(e))
+            else:
+                st.write(f"{len(out)} flows predicted" + (f" ({skipped} rows skipped: NaN/inf)" if skipped else ""))
+                st.bar_chart(out["predicted_class"].value_counts())
+                if "Label" in out.columns:
+                    from s1_preprocess import map_label
+                    true = out["Label"].map(map_label)
+                    m = true.notna()
+                    if m.any():
+                        st.metric("Accuracy vs the Label column", f"{(true[m] == out.loc[m, 'predicted_class']).mean():.4f}")
+                        st.dataframe(pd.crosstab(true[m].rename("true"), out.loc[m, "predicted_class"].rename("predicted")), use_container_width=True)
+                show = [c for c in ("Flow ID", "Source IP", "Label") if c in out.columns] + ["predicted_class", "confidence"]
+                st.dataframe(out[show].head(500), use_container_width=True)
+                st.download_button("Download predictions (CSV)", out[show].to_csv(index=False), "predictions.csv")
