@@ -1,0 +1,146 @@
+[
+ {
+  "alert": {
+   "src_ip": "172.16.0.1",
+   "predicted_class": "BruteForce",
+   "n_flagged": 3,
+   "confidence": 0.992,
+   "triggered_by_true_class": "BruteForce",
+   "time": 87.72199999983422,
+   "institution": "Institution_D"
+  },
+  "output": "{\n\"summary\": \"Brute Force Attack detected on Institution_D's network from IP 172.16.0.1\",\n\"impact\": \"Potential unauthorized access to university systems\",\n\"mitre_techniques\": [\"T1110\", \"T1090\"],\n\"response_steps\": [\n    \"Block the IP address at the firewall\",\n    \"Notify the network team to monitor for further activity\",\n    \"Run a full system scan on affected systems\"\n],\n\"escalation\": \"Contact the CISO and the Network Operations Center (NOC) for further guidance\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "192.168.10.15",
+   "predicted_class": "Botnet",
+   "n_flagged": 3,
+   "confidence": 0.985,
+   "triggered_by_true_class": "Botnet",
+   "time": 349.92199999978766,
+   "institution": "Institution_B"
+  },
+  "output": "{\n\"summary\": \"Potential botnet activity detected on Institution_B's network, originating from IP address 192.168.10.15.\",\n\"impact\": \"Potential compromise of university systems and data.\",\n\"mitre_techniques\": [\"T1059.001\", \"T1071\"],\n\"response_steps\": [\n    \"Block the IP address 192.168.10.15\",\n    \"Run a network scan to identify affected systems\",\n    \"Contain the spread of the botnet\"\n],\n\"escalation\": \"Contact the university's incident response team lead, John Smith, at john.smith@university.edu\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "172.16.0.1",
+   "predicted_class": "BruteForce",
+   "n_flagged": 3,
+   "confidence": 0.992,
+   "triggered_by_true_class": "BruteForce",
+   "time": 87.7819999998901,
+   "institution": "Institution_B"
+  },
+  "output": "{\n\"summary\": \"Brute Force Attack detected on Institution_B's network from IP 172.16.0.1 with high confidence (0.992).\",\n\"impact\": \"Potential unauthorized access to university systems and data.\",\n\"mitre_techniques\": [\"T1110\", \"T1090\"],\n\"response_steps\": [\n    \"Block the IP address at the firewall\",\n    \"Alert the network team to monitor for further activity\",\n    \"Run a full system scan on affected systems\"\n],\n\"escalation\": \"Contact the CISO (Chief Information Security Officer) for further guidance\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "192.168.10.15",
+   "predicted_class": "Botnet",
+   "n_flagged": 3,
+   "confidence": 0.977,
+   "triggered_by_true_class": "Botnet",
+   "time": 350.7019999998156,
+   "institution": "Institution_E"
+  },
+  "output": "{\n\"summary\": \"Potential botnet activity detected on Institution_E's network, originating from IP address 192.168.10.15. Confidence level is 0.977.\",\n\"impact\": \"Potential compromise of university systems and data.\",\n\"mitre_techniques\": [\"T1059\", \"T1060\"],\n\"response_steps\": [\n    \"Block the IP address 192.168.10.15\",\n    \"Run a network scan to identify affected systems\",\n    \"Contain the spread of the botnet\"\n],\n\"escalation\": \"Contact the university's incident response team lead, John Smith, at john.smith@university.edu\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "172.16.0.1",
+   "predicted_class": "BruteForce",
+   "n_flagged": 3,
+   "confidence": 0.992,
+   "triggered_by_true_class": "BruteForce",
+   "time": 87.7819999998901,
+   "institution": "Institution_A"
+  },
+  "output": "{\n\"summary\": \"Brute Force Attack detected on Institution_A, originating from IP 172.16.0.1\",\n\"impact\": \"Potential unauthorized access to university systems\",\n\"mitre_techniques\": [\"T1110\", \"T1090\"],\n\"response_steps\": [\n    \"Block the IP address at the firewall\",\n    \"Notify the network team to monitor for further activity\",\n    \"Run a thorough investigation to identify the compromised systems\"\n],\n\"escalation\": \"Contact the CISO, John Smith, for further guidance\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "192.168.10.9",
+   "predicted_class": "Botnet",
+   "n_flagged": 4,
+   "confidence": 0.988,
+   "triggered_by_true_class": "Botnet",
+   "time": 351.00199999986216,
+   "institution": "Institution_B"
+  },
+  "output": "{\n\"summary\": \"Potential botnet activity detected on Institution_B's network, originating from IP address 192.168.10.9.\",\n\"impact\": \"Potential compromise of university systems and data.\",\n\"mitre_techniques\": [\"T1059\", \"T1071\"],\n\"response_steps\": [\n    \"Block the IP address 192.168.10.9\",\n    \"Run a network scan to identify affected systems\",\n    \"Contain the spread of the botnet\"\n],\n\"escalation\": \"Contact the CISO, Dr. Smith, for further guidance and decision-making.\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "172.16.0.1",
+   "predicted_class": "BruteForce",
+   "n_flagged": 3,
+   "confidence": 0.996,
+   "triggered_by_true_class": "BruteForce",
+   "time": 87.84199999994598,
+   "institution": "Institution_E"
+  },
+  "output": "{\n\"summary\": \"Brute Force Attack detected on Institution_E's network from IP 172.16.0.1 with high confidence (0.996).\",\n\"impact\": \"Potential unauthorized access to university systems and data.\",\n\"mitre_techniques\": [\"T1110\", \"T1090\"],\n\"response_steps\": [\n    \"Block the IP address at the firewall\",\n    \"Notify the network team to monitor for further activity\",\n    \"Run a full system scan on affected systems\"\n],\n\"escalation\": \"Contact the CISO (Chief Information Security Officer) for further guidance\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "192.168.10.14",
+   "predicted_class": "Botnet",
+   "n_flagged": 3,
+   "confidence": 0.985,
+   "triggered_by_true_class": "Botnet",
+   "time": 351.06199999991804,
+   "institution": "Institution_E"
+  },
+  "output": "{\n\"summary\": \"Potential botnet activity detected on Institution_E's network, originating from IP address 192.168.10.14.\",\n\"impact\": \"The detected botnet activity may be attempting to compromise university systems or steal sensitive information.\",\n\"mitre_techniques\": [\"T1059.001\", \"T1071.001\"],\n\"response_steps\": [\n    \"Block the suspicious IP address at the network perimeter\",\n    \"Monitor network traffic for further botnet activity\",\n    \"Run a full system scan on affected systems\"\n],\n\"escalation\": \"Contact the university's incident response team lead, John Smith, at john.smith@university.edu\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "172.16.0.1",
+   "predicted_class": "BruteForce",
+   "n_flagged": 3,
+   "confidence": 0.994,
+   "triggered_by_true_class": "BruteForce",
+   "time": 105.48199999984354,
+   "institution": "Institution_C"
+  },
+  "output": "{\n\"summary\": \"Brute Force Attack detected on Institution_C's network from IP 172.16.0.1 with high confidence (0.994).\",\n\"impact\": \"Potential unauthorized access to university systems and data.\",\n\"mitre_techniques\": [\"T1110\", \"T1090\"],\n\"response_steps\": [\n    \"Block the IP address at the firewall\",\n    \"Notify the network team to monitor for further activity\",\n    \"Run a full system scan on affected systems\"\n],\n\"escalation\": \"Contact the CISO (Chief Information Security Officer) for further guidance\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "192.168.10.14",
+   "predicted_class": "Botnet",
+   "n_flagged": 3,
+   "confidence": 0.985,
+   "triggered_by_true_class": "Botnet",
+   "time": 351.181999999797,
+   "institution": "Institution_B"
+  },
+  "output": "{\n\"summary\": \"Potential botnet activity detected on Institution_B's network, originating from IP address 192.168.10.14.\",\n\"impact\": \"Potential compromise of university systems and data.\",\n\"mitre_techniques\": [\"T1059\", \"T1060\"],\n\"response_steps\": [\n    \"Block the IP address 192.168.10.14\",\n    \"Run a network scan to identify affected systems\",\n    \"Contain the spread of the botnet\"\n],\n\"escalation\": \"Contact the CISO, John Smith, at john.smith@university.edu\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "192.168.10.15",
+   "predicted_class": "Botnet",
+   "n_flagged": 3,
+   "confidence": 0.985,
+   "triggered_by_true_class": "Botnet",
+   "time": 351.24199999985285,
+   "institution": "Institution_A"
+  },
+  "output": "{\n\"summary\": \"Potential botnet activity detected on Institution_A's network, originating from IP address 192.168.10.15.\",\n\"impact\": \"Potential compromise of university systems and data.\",\n\"mitre_techniques\": [\"T1059.001\", \"T1071\"],\n\"response_steps\": [\n    \"Block the IP address 192.168.10.15\",\n    \"Run a network scan to identify affected systems\",\n    \"Contain the spread of the botnet\"\n],\n\"escalation\": \"Contact the CISO, John Smith, for further guidance and support.\"\n}"
+ },
+ {
+  "alert": {
+   "src_ip": "192.168.10.14",
+   "predicted_class": "Botnet",
+   "n_flagged": 3,
+   "confidence": 0.977,
+   "triggered_by_true_class": "Botnet",
+   "time": 351.30199999990873,
+   "institution": "Institution_A"
+  },
+  "output": "{\n\"summary\": \"Potential botnet activity detected on Institution_A's network, originating from IP address 192.168.10.14.\",\n\"impact\": \"Potential compromise of university systems and data.\",\n\"mitre_techniques\": [\"T1059\", \"T1060\"],\n\"response_steps\": [\n    \"Block the IP address 192.168.10.14\",\n    \"Run a network scan to identify affected systems\",\n    \"Contain the spread of the botnet\"\n],\n\"escalation\": \"Contact the CISO, John Smith, for further guidance and support.\"\n}"
+ }
+]

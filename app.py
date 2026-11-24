@@ -9,7 +9,6 @@ st.set_page_config(page_title="Federated Campus IDS", layout="wide")
 st.title("Privacy-preserving collaborative threat detection for educational institutions")
 st.caption("Federated XGBoost-style IDS + Secure Aggregation + Multi-Agent RAG (local Llama). Simulation on CICIDS2017.")
 
-
 @st.cache_resource
 def load_model():
     return pickle.load(open(ART / "global_model.pkl", "rb"))

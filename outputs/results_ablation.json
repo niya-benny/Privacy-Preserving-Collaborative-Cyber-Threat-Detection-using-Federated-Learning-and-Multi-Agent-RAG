@@ -1,0 +1,15 @@
+{
+ "With RAG (ours)": {
+  "mitre_valid": 1.0,
+  "steps_supported": 1.0,
+  "contact_correct": 1.0,
+  "faithfulness": 0.995
+ },
+ "No retrieval (LLM only)": {
+  "mitre_valid": 0.0,
+  "steps_supported": 0.333,
+  "contact_correct": 0.0,
+  "faithfulness": 0.333
+ },
+ "n_incidents": 12
+}
