@@ -81,6 +81,7 @@ def check_report(report, global_ctx, policy_ctx, step_thr=0.6):
     res["passed"] = res["mitre_grounded"] and res["step_support"] >= 0.8 and bool(steps) and imp >= 0.4
     return res
 
+
 def summary_ok(summary, alert):
     """Numbers and IPs written in the summary must match the alert (the model sometimes rounds or invents them)."""
     c = float(alert["confidence"])
@@ -88,7 +89,9 @@ def summary_ok(summary, alert):
     found = re.findall(r"\d+\.\d+(?:\.\d+\.\d+)?", str(summary))
     return all(x in allowed for x in found)
 
+
 ESC = re.compile(r"[Ee]scalate to the ([^()\n.]{3,60}?)\s*\((ext \d+)\)")
+
 
 def extract_escalation(chunks):
     """Escalation contact copied straight from the institution's own playbook text (no LLM involved)."""
@@ -97,3 +100,20 @@ def extract_escalation(chunks):
         if m:
             return f"{m.group(1)} ({m.group(2)})"
     return None
+
+
+def mitre_details(chunks, ids):
+    """Official MITRE ATT&CK name + first description sentence + listed mitigations for each technique id,
+    copied by code from the knowledge-base chunks (no LLM involved)."""
+    by = {c["topic"]: c["text"] for c in chunks if c.get("document_type") == "MITRE_ATTACK"}
+    out = []
+    for tid in (ids if isinstance(ids, list) else []):
+        t = by.get(tid) if isinstance(tid, str) else None
+        m = re.match(r"MITRE ATT&CK (T\d{4}(?:\.\d{3})?) (.+?)\. (.*)", t or "", re.S)
+        if not m:
+            continue
+        first = re.split(r"(?<=[.!?])\s", m.group(3).split("\n")[0])[0]
+        mit = re.search(r"Mitigations listed by MITRE: (.*)", t)
+        out.append({"id": tid, "name": m.group(2), "description": first[:300],
+                    "mitigations": mit.group(1).strip().rstrip(".") if mit else ""})
+    return out

@@ -1,34 +1,46 @@
 {
  "alert": {
-  "src_ip": "192.168.10.14",
-  "predicted_class": "Botnet",
+  "src_ip": "172.16.0.1",
+  "predicted_class": "DDoS",
   "n_flagged": 3,
-  "confidence": 0.985,
-  "triggered_by_true_class": "Botnet",
-  "time": 351.181999999797,
-  "institution": "Institution_B"
+  "confidence": 0.999,
+  "triggered_by_true_class": "DDoS",
+  "time": 370742.0,
+  "institution": "Institution_E"
  },
  "status": "ok",
  "report": {
-  "summary": "A botnet attack was detected on Institution_B's network, originating from IP address 192.168.10.14. The attack has a high confidence level of 0.98.",
-  "impact": "A compromised host that contacts a command-and-control server and may take part in attacks, spam or data theft.",
+  "summary": "A Distributed Denial-of-Service (DDoS) attack was detected targeting Institution_E, impacting campus services such as the LMS, portal, and DNS.",
+  "impact": "A distributed denial-of-service attack floods a network or service with traffic from many sources, saturating bandwidth or connection tables. Campus services such as the LMS, portal and DNS become unavailable.",
   "mitre_techniques": [
-   "T1071",
-   "T1071.001",
-   "T1568",
-   "T1041"
+   "T1498",
+   "T1498.001"
   ],
   "response_steps": [
-   "Isolate the infected host from the network",
-   "Block the command-and-control address at the firewall and DNS",
-   "Collect logs and evidence",
-   "Reimage the host and reset its credentials"
+   "Notify the upstream provider and request traffic filtering",
+   "Enable SYN-flood protection and rate limits",
+   "Switch critical services to the backup path",
+   "Post a status notice for users"
   ],
-  "escalation": "CISO office (ext 5200)",
-  "attack_type": "Botnet",
-  "confidence": 0.985,
-  "institution": "Institution_B",
-  "source_ip": "192.168.10.14"
+  "escalation": "Library systems admin (ext 7500)",
+  "attack_type": "DDoS",
+  "confidence": 0.999,
+  "institution": "Institution_E",
+  "source_ip": "172.16.0.1",
+  "technique_details": [
+   {
+    "id": "T1498",
+    "name": "Network Denial of Service",
+    "description": "Adversaries may perform Network Denial of Service (DoS) attacks to degrade or block the availability of targeted resources to users.",
+    "mitigations": "Filter Network Traffic (M1037)"
+   },
+   {
+    "id": "T1498.001",
+    "name": "Direct Network Flood",
+    "description": "Adversaries may attempt to cause a denial of service (DoS) by directly sending a high-volume of network traffic to a target.",
+    "mitigations": "Filter Network Traffic (M1037)"
+   }
+  ]
  },
  "checks": {
   "structure_ok": true,
@@ -38,18 +50,20 @@
   "faithfulness": 1.0,
   "passed": true
  },
- "query": "Botnet attack botnet command-and-control traffic impact detection mitigation",
+ "query": "DDoS attack distributed denial of service flood impact detection mitigation",
  "sources": [
-  "botnet#0",
+  "T1498_001#0",
+  "ddos#0",
+  "T1498#0",
   "nist_incident_response#0",
-  "playbook_botnet#0",
-  "acceptable_use#0",
-  "network_layout#0"
+  "playbook_ddos#0",
+  "network_layout#0",
+  "acceptable_use#0"
  ],
  "stats": {
-  "latency_s": 45.3,
-  "prompt_tokens": 924,
-  "output_tokens": 268
+  "latency_s": 57.349999999999994,
+  "prompt_tokens": 1134,
+  "output_tokens": 272
  },
  "dropped_chunks": 0
 }

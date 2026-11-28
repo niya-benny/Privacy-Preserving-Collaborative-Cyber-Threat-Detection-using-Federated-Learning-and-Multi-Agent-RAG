@@ -1,34 +1,53 @@
 {
  "alert": {
-  "src_ip": "192.168.10.15",
-  "predicted_class": "Botnet",
+  "src_ip": "172.16.0.1",
+  "predicted_class": "DoS",
   "n_flagged": 3,
-  "confidence": 0.985,
-  "triggered_by_true_class": "Botnet",
-  "time": 349.92199999978766,
-  "institution": "Institution_B"
+  "confidence": 0.966,
+  "triggered_by_true_class": "DoS",
+  "time": 175862.0,
+  "institution": "Institution_C"
  },
  "status": "ok",
  "report": {
-  "summary": "A botnet attack was detected on Institution_B's network, originating from IP address 192.168.10.15. The attack has a high confidence level of 0.98.",
-  "impact": "A compromised host that contacts a command-and-control server and may take part in attacks, spam or data theft.",
+  "summary": "A denial-of-service attack was detected targeting Institution_C, originating from IP address 172.16.0.1, with a confidence level of 0.97.",
+  "impact": "A denial-of-service attack exhausts the resources of a single host or application, denying legitimate users access to the service.",
   "mitre_techniques": [
-   "T1071",
-   "T1071.001",
-   "T1568",
-   "T1041"
+   "T1499",
+   "T1499.002",
+   "T1499.003"
   ],
   "response_steps": [
-   "Isolate the infected host from the network",
-   "Block the command-and-control address at the firewall and DNS",
-   "Collect logs and evidence",
-   "Reimage the host and reset its credentials"
+   "Confirm the target service and the offending source address",
+   "Apply per-source rate limiting on the firewall",
+   "Check service health and restart if required",
+   "Record the incident in the ticketing system"
   ],
-  "escalation": "CISO office (ext 5200)",
-  "attack_type": "Botnet",
-  "confidence": 0.985,
-  "institution": "Institution_B",
-  "source_ip": "192.168.10.15"
+  "escalation": "IT service desk (ext 3300)",
+  "attack_type": "DoS",
+  "confidence": 0.966,
+  "institution": "Institution_C",
+  "source_ip": "172.16.0.1",
+  "technique_details": [
+   {
+    "id": "T1499",
+    "name": "Endpoint Denial of Service",
+    "description": "Adversaries may perform Endpoint Denial of Service (DoS) attacks to degrade or block the availability of services to users.",
+    "mitigations": "Filter Network Traffic (M1037)"
+   },
+   {
+    "id": "T1499.002",
+    "name": "Service Exhaustion Flood",
+    "description": "Adversaries may target the different network services provided by systems to conduct a denial of service (DoS).",
+    "mitigations": "Filter Network Traffic (M1037)"
+   },
+   {
+    "id": "T1499.003",
+    "name": "Application Exhaustion Flood",
+    "description": "Adversaries may target resource intensive features of applications to cause a denial of service (DoS), denying availability to those applications.",
+    "mitigations": "Filter Network Traffic (M1037)"
+   }
+  ]
  },
  "checks": {
   "structure_ok": true,
@@ -38,18 +57,20 @@
   "faithfulness": 1.0,
   "passed": true
  },
- "query": "Botnet attack botnet command-and-control traffic impact detection mitigation",
+ "query": "DoS attack denial of service against a single host or service impact detection mitigation",
  "sources": [
-  "botnet#0",
-  "nist_incident_response#0",
-  "playbook_botnet#0",
+  "T1499_002#0",
+  "T1499#0",
+  "T1499_003#0",
+  "dos#0",
+  "playbook_dos#0",
   "acceptable_use#0",
   "network_layout#0"
  ],
  "stats": {
-  "latency_s": 42.4,
-  "prompt_tokens": 924,
-  "output_tokens": 268
+  "latency_s": 63.989999999999995,
+  "prompt_tokens": 1170,
+  "output_tokens": 266
  },
  "dropped_chunks": 0
 }

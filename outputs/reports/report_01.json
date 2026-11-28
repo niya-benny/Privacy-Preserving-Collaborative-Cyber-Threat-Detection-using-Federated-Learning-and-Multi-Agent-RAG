@@ -5,17 +5,16 @@
   "n_flagged": 3,
   "confidence": 0.992,
   "triggered_by_true_class": "BruteForce",
-  "time": 87.72199999983422,
+  "time": 87722.0,
   "institution": "Institution_D"
  },
  "status": "ok",
  "report": {
-  "summary": "A brute-force attack was detected targeting Institution_D's services, resulting in a high confidence alert. The attack aimed to guess passwords repeatedly against services such as FTP and SSH.",
+  "summary": "A brute-force attack was detected targeting Institution_D's services, resulting in a high confidence alert.",
   "impact": "A brute-force attack repeatedly guesses passwords against services such as FTP and SSH, giving the attacker valid accounts and a foothold inside the network.",
   "mitre_techniques": [
    "T1110",
-   "T1110.001",
-   "T1110.003"
+   "T1110.001"
   ],
   "response_steps": [
    "Lock the targeted accounts and force a password reset",
@@ -27,7 +26,21 @@
   "attack_type": "BruteForce",
   "confidence": 0.992,
   "institution": "Institution_D",
-  "source_ip": "172.16.0.1"
+  "source_ip": "172.16.0.1",
+  "technique_details": [
+   {
+    "id": "T1110",
+    "name": "Brute Force",
+    "description": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.",
+    "mitigations": "Account Use Policies (M1036), Multi-factor Authentication (M1032), Password Policies (M1027), User Account Management (M1018)"
+   },
+   {
+    "id": "T1110.001",
+    "name": "Password Guessing",
+    "description": "Adversaries with no prior knowledge of legitimate credentials within the system or environment may guess passwords to attempt access to accounts.",
+    "mitigations": "Account Use Policies (M1036), Multi-factor Authentication (M1032), Password Policies (M1027), Update Software (M1051)"
+   }
+  ]
  },
  "checks": {
   "structure_ok": true,
@@ -41,15 +54,16 @@
  "sources": [
   "bruteforce#1",
   "bruteforce#0",
-  "nist_incident_response#0",
+  "T1110#0",
+  "T1110_001#0",
   "playbook_bruteforce#0",
   "acceptable_use#0",
   "network_layout#0"
  ],
  "stats": {
-  "latency_s": 41.95,
-  "prompt_tokens": 953,
-  "output_tokens": 266
+  "latency_s": 75.67,
+  "prompt_tokens": 1121,
+  "output_tokens": 236
  },
  "dropped_chunks": 0
 }

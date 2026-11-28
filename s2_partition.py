@@ -80,7 +80,7 @@ def main():
         m = y[te] == c
         inst[m] = rng.choice(N_CLIENTS, m.sum(), p=P[c])
     ts = meta.ts.values[te]
-    ts_sec = np.where(pd.isna(ts), np.nan, pd.to_datetime(ts).astype("int64") / 1e9) if meta.ts.notna().any() else np.full(len(te), np.nan)
+    ts_sec = ((ts - np.datetime64("1970-01-01T00:00:00")) / np.timedelta64(1, "s")).astype("float64") if meta.ts.notna().any() else np.full(len(te), np.nan)   # epoch seconds, independent of the datetime unit
     np.savez(ART / "test.npz", Xb=Xb[te], y=y[te], src=np.asarray(meta.src.values[te], dtype="U45"), ts=ts_sec, inst=inst)
     save_json({"classes": classes, "features": sel_names, "edges": [e.tolist() for e in edges], "n_bins": N_BINS,
                "P": P.tolist(), "n_clients": N_CLIENTS, "n_train": int(len(tr)), "n_test": int(len(te))}, ART / "meta.json")

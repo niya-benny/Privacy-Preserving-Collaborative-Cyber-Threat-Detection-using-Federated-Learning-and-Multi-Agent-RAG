@@ -1,34 +1,46 @@
 {
  "alert": {
-  "src_ip": "192.168.10.15",
-  "predicted_class": "Botnet",
+  "src_ip": "172.16.0.1",
+  "predicted_class": "PortScan",
   "n_flagged": 3,
-  "confidence": 0.977,
-  "triggered_by_true_class": "Botnet",
-  "time": 350.7019999998156,
-  "institution": "Institution_E"
+  "confidence": 0.956,
+  "triggered_by_true_class": "PortScan",
+  "time": 363542.0,
+  "institution": "Institution_A"
  },
  "status": "ok",
  "report": {
-  "summary": "A botnet attack was detected on Institution_E's network, originating from IP address 192.168.10.15. The attack has a high confidence level of 0.98.",
-  "impact": "A compromised host that contacts a command-and-control server and may take part in attacks, spam or data theft.",
+  "summary": "A port scan attack was detected targeting Institution_A, originating from IP address 172.16.0.1. The attack had a confidence level of 0.96.",
+  "impact": "Port scanning is reconnaissance: the attacker maps open ports and services to find vulnerable systems before a later attack. It rarely causes damage by itself but usually precedes exploitation or brute force.",
   "mitre_techniques": [
-   "T1071",
-   "T1071.001",
-   "T1568",
-   "T1041"
+   "T1046",
+   "T1595.001"
   ],
   "response_steps": [
-   "Isolate the infected host from the network",
-   "Block the command-and-control address at the firewall and DNS",
-   "Collect logs and evidence",
-   "Reimage the host and reset its credentials"
+   "Temporarily block the scanning source",
+   "Review which ports the scan reached",
+   "Close any unused exposed service",
+   "Watch the same source for follow-up attacks for 24 hours"
   ],
-  "escalation": "Library systems admin (ext 7500)",
-  "attack_type": "Botnet",
-  "confidence": 0.977,
-  "institution": "Institution_E",
-  "source_ip": "192.168.10.15"
+  "escalation": "NOC duty officer (ext 4100)",
+  "attack_type": "PortScan",
+  "confidence": 0.956,
+  "institution": "Institution_A",
+  "source_ip": "172.16.0.1",
+  "technique_details": [
+   {
+    "id": "T1046",
+    "name": "Network Service Discovery",
+    "description": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.",
+    "mitigations": "Disable or Remove Feature or Program (M1042), Network Intrusion Prevention (M1031), Network Segmentation (M1030)"
+   },
+   {
+    "id": "T1595.001",
+    "name": "Scanning IP Blocks",
+    "description": "Adversaries may scan victim IP blocks to gather information that can be used during targeting.",
+    "mitigations": "Pre-compromise (M1056)"
+   }
+  ]
  },
  "checks": {
   "structure_ok": true,
@@ -38,18 +50,20 @@
   "faithfulness": 1.0,
   "passed": true
  },
- "query": "Botnet attack botnet command-and-control traffic impact detection mitigation",
+ "query": "PortScan attack port scanning / network reconnaissance impact detection mitigation",
  "sources": [
-  "botnet#0",
+  "portscan#0",
+  "T1046#0",
+  "T1595_001#0",
   "nist_incident_response#0",
-  "playbook_botnet#0",
+  "playbook_portscan#0",
   "acceptable_use#0",
   "network_layout#0"
  ],
  "stats": {
-  "latency_s": 48.64,
-  "prompt_tokens": 926,
-  "output_tokens": 268
+  "latency_s": 62.480000000000004,
+  "prompt_tokens": 1101,
+  "output_tokens": 271
  },
  "dropped_chunks": 0
 }

@@ -1,55 +1,69 @@
 {
  "alert": {
   "src_ip": "172.16.0.1",
-  "predicted_class": "BruteForce",
+  "predicted_class": "PortScan",
   "n_flagged": 3,
-  "confidence": 0.994,
-  "triggered_by_true_class": "BruteForce",
-  "time": 105.48199999984354,
+  "confidence": 0.956,
+  "triggered_by_true_class": "PortScan",
+  "time": 363542.0,
   "institution": "Institution_C"
  },
  "status": "ok",
  "report": {
-  "summary": "A brute-force attack was detected targeting Institution_C's services, resulting in a high confidence alert.",
-  "impact": "A brute-force attack repeatedly guesses passwords against services such as FTP and SSH, giving the attacker valid accounts and a foothold inside the network.",
+  "summary": "A port scan attack was detected targeting Institution_C, originating from IP address 172.16.0.1. The attack is likely reconnaissance, aiming to identify vulnerable systems for future exploitation.",
+  "impact": "Port scanning is reconnaissance: the attacker maps open ports and services to find vulnerable systems before a later attack. It rarely causes damage by itself but usually precedes exploitation or brute force.",
   "mitre_techniques": [
-   "T1110",
-   "T1110.001",
-   "T1110.003"
+   "T1046",
+   "T1595.001"
   ],
   "response_steps": [
-   "Lock the targeted accounts and force a password reset",
-   "Block the source address temporarily",
-   "Review authentication logs for successful logins from that source",
-   "Enable multi-factor authentication on the exposed service"
+   "Temporarily block the scanning source",
+   "Review which ports the scan reached",
+   "Close any unused exposed service",
+   "Watch the same source for follow-up attacks for 24 hours"
   ],
   "escalation": "IT service desk (ext 3300)",
-  "attack_type": "BruteForce",
-  "confidence": 0.994,
+  "attack_type": "PortScan",
+  "confidence": 0.956,
   "institution": "Institution_C",
-  "source_ip": "172.16.0.1"
+  "source_ip": "172.16.0.1",
+  "technique_details": [
+   {
+    "id": "T1046",
+    "name": "Network Service Discovery",
+    "description": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.",
+    "mitigations": "Disable or Remove Feature or Program (M1042), Network Intrusion Prevention (M1031), Network Segmentation (M1030)"
+   },
+   {
+    "id": "T1595.001",
+    "name": "Scanning IP Blocks",
+    "description": "Adversaries may scan victim IP blocks to gather information that can be used during targeting.",
+    "mitigations": "Pre-compromise (M1056)"
+   }
+  ]
  },
  "checks": {
   "structure_ok": true,
   "mitre_grounded": true,
   "ungrounded_ids": [],
   "step_support": 1.0,
-  "faithfulness": 0.988,
+  "faithfulness": 1.0,
   "passed": true
  },
- "query": "BruteForce attack brute-force password guessing (FTP/SSH) impact detection mitigation",
+ "query": "PortScan attack port scanning / network reconnaissance impact detection mitigation",
  "sources": [
-  "bruteforce#1",
-  "bruteforce#0",
+  "portscan#0",
+  "T1046#0",
+  "T1595_001#0",
   "nist_incident_response#0",
-  "playbook_bruteforce#0",
+  "playbook_portscan#0",
   "acceptable_use#0",
   "network_layout#0"
  ],
  "stats": {
-  "latency_s": 46.410000000000004,
-  "prompt_tokens": 960,
-  "output_tokens": 257
+  "latency_s": 56.55,
+  "prompt_tokens": 1095,
+  "output_tokens": 272
  },
  "dropped_chunks": 0
 }

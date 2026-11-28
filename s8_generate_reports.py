@@ -32,7 +32,7 @@ def main():
         rep = r["report"]
         md += [f"## Incident {i + 1}: {rep['attack_type']} at {rep['institution']} (status: {r['status']})",
                f"**Source:** {rep['source_ip']}  |  **Confidence:** {rep['confidence']}  |  **Faithfulness:** {r['checks']['faithfulness']}\n",
-               f"**Summary:** {rep['summary']}\n", f"**Impact:** {rep['impact']}\n", f"**MITRE:** {', '.join(rep['mitre_techniques'])}\n",
+               f"**Summary:** {rep['summary']}\n", f"**Impact:** {rep['impact']}\n", f"**MITRE:** {', '.join(rep['mitre_techniques'])}\n" + "".join(f"- {d['id']} {d['name']}: {d['description']}\n" for d in rep.get("technique_details", [])),
                "**Response steps:**"] + [f"{j + 1}. {s}" for j, s in enumerate(rep["response_steps"])] + \
               [f"\n**Escalation:** {rep.get('escalation', '')}", f"*Sources: {', '.join(r['sources'])}*\n"]
     (OUT / "reports.md").write_text("\n".join(md), encoding="utf-8")

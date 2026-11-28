@@ -90,6 +90,8 @@ with tab3:
             rp = r["report"]
             st.subheader(f"{rp['attack_type']} - {rp['institution']}  ({r['status']})")
             st.write(rp["summary"]); st.markdown(f"**Impact:** {rp['impact']}"); st.markdown("**MITRE:** " + ", ".join(rp["mitre_techniques"]))
+            for d in rp.get("technique_details", []):
+                st.markdown(f"- **{d['id']} {d['name']}** (MITRE ATT&CK): {d['description']}")
             st.markdown("**Response steps (from the institution's own policy):**\n" + "\n".join(f"{i + 1}. {s}" for i, s in enumerate(rp["response_steps"])))
             st.markdown(f"**Escalation:** {rp.get('escalation', '')}")
             with st.expander("Checks, sources and cost"):

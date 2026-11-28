@@ -1,10 +1,10 @@
 ,0
 attack_flows,67295.0
 benign_flows,60000.0
-attack_dropped,67174.0
-attack_dropped_pct,99.82
-attack_passed_before_block,121.0
-benign_dropped,3478.0
-benign_dropped_pct,5.797
-sources_blocked,18.0
+attack_dropped,66432.0
+attack_dropped_pct,98.718
+attack_passed_before_block,863.0
+benign_dropped,53.0
+benign_dropped_pct,0.088
+sources_blocked,10.0
 wrongly_blocked_sources,0.0

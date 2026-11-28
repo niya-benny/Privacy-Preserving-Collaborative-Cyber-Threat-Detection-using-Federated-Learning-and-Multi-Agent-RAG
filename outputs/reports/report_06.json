@@ -1,55 +1,69 @@
 {
  "alert": {
-  "src_ip": "192.168.10.9",
-  "predicted_class": "Botnet",
-  "n_flagged": 4,
-  "confidence": 0.988,
-  "triggered_by_true_class": "Botnet",
-  "time": 351.00199999986216,
+  "src_ip": "172.16.0.1",
+  "predicted_class": "BruteForce",
+  "n_flagged": 3,
+  "confidence": 0.992,
+  "triggered_by_true_class": "BruteForce",
+  "time": 87782.0,
   "institution": "Institution_B"
  },
  "status": "ok",
  "report": {
-  "summary": "A botnet attack was detected on Institution_B's network, originating from IP address 192.168.10.9. The attack has a high confidence level of 0.99.",
-  "impact": "A compromised host that contacts a command-and-control server and may take part in attacks, spam or data theft.",
+  "summary": "A brute-force attack was detected targeting Institution_B's services, resulting in a high confidence alert. The attack aimed to guess passwords repeatedly against services such as FTP and SSH.",
+  "impact": "A brute-force attack repeatedly guesses passwords against services such as FTP and SSH, giving the attacker valid accounts and a foothold inside the network.",
   "mitre_techniques": [
-   "T1071",
-   "T1071.001",
-   "T1568",
-   "T1041"
+   "T1110",
+   "T1110.001"
   ],
   "response_steps": [
-   "Isolate the infected host from the network",
-   "Block the command-and-control address at the firewall and DNS",
-   "Collect logs and evidence",
-   "Reimage the host and reset its credentials"
+   "Lock the targeted accounts and force a password reset",
+   "Block the source address temporarily",
+   "Review authentication logs for successful logins from that source",
+   "Enable multi-factor authentication on the exposed service"
   ],
   "escalation": "CISO office (ext 5200)",
-  "attack_type": "Botnet",
-  "confidence": 0.988,
+  "attack_type": "BruteForce",
+  "confidence": 0.992,
   "institution": "Institution_B",
-  "source_ip": "192.168.10.9"
+  "source_ip": "172.16.0.1",
+  "technique_details": [
+   {
+    "id": "T1110",
+    "name": "Brute Force",
+    "description": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.",
+    "mitigations": "Account Use Policies (M1036), Multi-factor Authentication (M1032), Password Policies (M1027), User Account Management (M1018)"
+   },
+   {
+    "id": "T1110.001",
+    "name": "Password Guessing",
+    "description": "Adversaries with no prior knowledge of legitimate credentials within the system or environment may guess passwords to attempt access to accounts.",
+    "mitigations": "Account Use Policies (M1036), Multi-factor Authentication (M1032), Password Policies (M1027), Update Software (M1051)"
+   }
+  ]
  },
  "checks": {
   "structure_ok": true,
   "mitre_grounded": true,
   "ungrounded_ids": [],
   "step_support": 1.0,
-  "faithfulness": 1.0,
+  "faithfulness": 0.988,
   "passed": true
  },
- "query": "Botnet attack botnet command-and-control traffic impact detection mitigation",
+ "query": "BruteForce attack brute-force password guessing (FTP/SSH) impact detection mitigation",
  "sources": [
-  "botnet#0",
-  "nist_incident_response#0",
-  "playbook_botnet#0",
-  "acceptable_use#0",
-  "network_layout#0"
+  "bruteforce#1",
+  "bruteforce#0",
+  "T1110#0",
+  "T1110_001#0",
+  "playbook_bruteforce#0",
+  "network_layout#0",
+  "acceptable_use#0"
  ],
  "stats": {
-  "latency_s": 46.07,
-  "prompt_tokens": 924,
-  "output_tokens": 268
+  "latency_s": 54.69,
+  "prompt_tokens": 1126,
+  "output_tokens": 260
  },
  "dropped_chunks": 0
 }

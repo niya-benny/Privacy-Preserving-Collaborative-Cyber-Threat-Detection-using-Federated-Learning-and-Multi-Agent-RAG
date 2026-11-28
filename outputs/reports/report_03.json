@@ -1,55 +1,76 @@
 {
  "alert": {
-  "src_ip": "172.16.0.1",
-  "predicted_class": "BruteForce",
+  "src_ip": "192.168.10.15",
+  "predicted_class": "Botnet",
   "n_flagged": 3,
-  "confidence": 0.992,
-  "triggered_by_true_class": "BruteForce",
-  "time": 87.7819999998901,
+  "confidence": 0.985,
+  "triggered_by_true_class": "Botnet",
+  "time": 349982.0,
   "institution": "Institution_B"
  },
  "status": "ok",
  "report": {
-  "summary": "A brute-force attack was detected targeting Institution_B's services, resulting in a high confidence alert.",
-  "impact": "A brute-force attack repeatedly guesses passwords against services such as FTP and SSH, giving the attacker valid accounts and a foothold inside the network.",
+  "summary": "A botnet attack was detected on Institution_B's network, originating from IP address 192.168.10.15. The attack has a high confidence level of 0.98.",
+  "impact": "A compromised host that contacts a command-and-control server and may take part in attacks, spam or data theft. The host is under external control and should be treated as compromised.",
   "mitre_techniques": [
-   "T1110",
-   "T1110.001",
-   "T1110.003"
+   "T1071",
+   "T1071.001",
+   "T1568"
   ],
   "response_steps": [
-   "Lock the targeted accounts and force a password reset",
-   "Block the source address temporarily",
-   "Review authentication logs for successful logins from that source",
-   "Enable multi-factor authentication on the exposed service"
+   "Isolate the infected host from the network",
+   "Block the command-and-control address at the firewall and DNS",
+   "Collect logs and evidence",
+   "Reimage the host and reset its credentials"
   ],
   "escalation": "CISO office (ext 5200)",
-  "attack_type": "BruteForce",
-  "confidence": 0.992,
+  "attack_type": "Botnet",
+  "confidence": 0.985,
   "institution": "Institution_B",
-  "source_ip": "172.16.0.1"
+  "source_ip": "192.168.10.15",
+  "technique_details": [
+   {
+    "id": "T1071",
+    "name": "Application Layer Protocol",
+    "description": "Adversaries may communicate using OSI application layer protocols to avoid detection/network filtering by blending in with existing traffic.",
+    "mitigations": "Filter Network Traffic (M1037), Network Intrusion Prevention (M1031)"
+   },
+   {
+    "id": "T1071.001",
+    "name": "Web Protocols",
+    "description": "Adversaries may communicate using application layer protocols associated with web traffic to avoid detection/network filtering by blending in with existing traffic.",
+    "mitigations": "Filter Network Traffic (M1037), Network Intrusion Prevention (M1031)"
+   },
+   {
+    "id": "T1568",
+    "name": "Dynamic Resolution",
+    "description": "Adversaries may dynamically establish connections to command and control infrastructure to evade common detections and remediations.",
+    "mitigations": "Network Intrusion Prevention (M1031), Restrict Web-Based Content (M1021)"
+   }
+  ]
  },
  "checks": {
   "structure_ok": true,
   "mitre_grounded": true,
   "ungrounded_ids": [],
   "step_support": 1.0,
-  "faithfulness": 0.988,
+  "faithfulness": 1.0,
   "passed": true
  },
- "query": "BruteForce attack brute-force password guessing (FTP/SSH) impact detection mitigation",
+ "query": "Botnet attack botnet command-and-control traffic impact detection mitigation",
  "sources": [
-  "bruteforce#1",
-  "bruteforce#0",
-  "nist_incident_response#0",
-  "playbook_bruteforce#0",
-  "network_layout#0",
-  "acceptable_use#0"
+  "botnet#0",
+  "T1071_001#0",
+  "T1568#0",
+  "T1071#0",
+  "playbook_botnet#0",
+  "acceptable_use#0",
+  "network_layout#0"
  ],
  "stats": {
-  "latency_s": 47.63,
-  "prompt_tokens": 958,
-  "output_tokens": 257
+  "latency_s": 67.74000000000001,
+  "prompt_tokens": 1183,
+  "output_tokens": 284
  },
  "dropped_chunks": 0
 }
