@@ -1,7 +1,9 @@
 """STEP 7 - write the knowledge-base documents (kb/) and build the FAISS index.
 GLOBAL docs: MITRE ATT&CK / CWE / CVE style summaries per CICIDS2017 attack class.
 INSTITUTION docs: SYNTHETIC policies for the 5 simulated institutions -- say so in the paper.
-EDIT the files in kb/ freely (they are plain markdown) and re-run this script.   Usage: python s7_build_kb.py
+The files in kb/ are plain markdown. If you EDIT them, re-index with --index-only (a plain run overwrites them).
+Usage: python s7_build_kb.py            (writes the documents AND builds the index; overwrites kb/global and kb/institutions)
+       python s7_build_kb.py --index-only (only rebuilds the index from whatever is in kb/, incl. kb/mitre)
 """
 import sys
 from config import KB_DIR, INSTITUTIONS, ART
@@ -62,7 +64,7 @@ def w(path, meta, body):
     path.write_text(f"---\n{head}\n---\n{body}\n", encoding="utf-8")
 
 
-def main():
+def write_docs():
     for a, d in GLOBAL.items():
         body = (f"## Impact\n{d['impact']}\n\n## MITRE ATT&CK\nRelevant techniques: {d['mitre']}." + (f" Related references: {d['extra']}." if d["extra"] else "") +
                 f"\n\n## Detection indicators\n{d['detect']}\n\n## Mitigation guidance\n{d['mitig']}")
@@ -81,6 +83,11 @@ def main():
             body = (f"{inst} incident response playbook for {a}. Escalate to the {st['contact']} ({st['ext']}). Target recovery time: {st['rto']}. {st['block']}\n\n" +
                     "\n".join(f"- {s}" for s in steps))
             w(KB_DIR / "institutions" / inst / f"playbook_{a.lower()}.md", dict(base, document_type="Security_Policy", topic="Incident_Response", attack_types=a), body)
+
+
+def main():
+    if "--index-only" not in sys.argv:       # --index-only: keep the documents in kb/ exactly as they are
+        write_docs()
     kb = KnowledgeBase().build(KB_DIR)
     kb.save()
     print(f"Knowledge base built: {len(kb.chunks)} chunks ({sum(c['institution'] == 'global' for c in kb.chunks)} global) -> {ART / 'kb'}")

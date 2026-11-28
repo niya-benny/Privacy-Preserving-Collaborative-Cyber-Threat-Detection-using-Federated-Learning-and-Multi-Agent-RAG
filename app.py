@@ -71,7 +71,8 @@ with tab3:
     alert = dict(incs[pick]) if pick is not None else {}
     c = st.columns(4)
     alert["institution"] = c[0].selectbox("Institution", INSTITUTIONS, index=INSTITUTIONS.index(alert["institution"]) if alert else 0)
-    alert["predicted_class"] = c[1].selectbox("Attack", [x for x in load_model().classes if x != "BENIGN"], index=0)
+    atk = [x for x in load_model().classes if x != "BENIGN"]
+    alert["predicted_class"] = c[1].selectbox("Attack", atk, index=atk.index(alert["predicted_class"]) if alert.get("predicted_class") in atk else 0)
     alert["src_ip"] = c[2].text_input("Source IP", alert.get("src_ip", "172.16.0.1"))
     alert["confidence"] = c[3].number_input("Confidence", 0.0, 1.0, float(alert.get("confidence") or 0.95))
     fast = st.checkbox("Fast mode (rule-based attack-analysis agent, fewer LLM calls)", True)

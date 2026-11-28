@@ -21,3 +21,4 @@ Thumbs.db
 
 # Local settings or secrets, if you ever add any
 .env
+data/mitre/*
